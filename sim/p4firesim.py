@@ -4,8 +4,9 @@
 # P4 Firewall Simulator
 # Pravein, 2020
 
-import gurobipy
-from gurobipy import GRB
+#import gurobipy
+#from gurobipy import GRB
+
 from scapy.all import *
 import re, sys
 import logging
