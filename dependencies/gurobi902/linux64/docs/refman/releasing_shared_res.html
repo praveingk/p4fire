@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2019 (Released January 1, 2019) -->
+<HTML lang="EN">
+<HEAD>
+<TITLE>Releasing shared resources</TITLE>
+<META NAME="description" CONTENT="Releasing shared resources">
+<META NAME="keywords" CONTENT="refman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2019">
+
+<LINK REL="STYLESHEET" HREF="refman.css">
+
+<LINK REL="previous" HREF="empty_environment_examples.html">
+<LINK REL="next" HREF="attributes.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="attributes.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="empty_environment_examples.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="attributes.html">Attributes</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="empty_environment_examples.html">Empty Environment Examples</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A ID="SECTION000162400000000000000">
+Releasing shared resources</A>
+</H3> In most of the previous
+examples, an environment is using a shared resource (e.g., a token
+license, a remote machine, etc.), and as long as the environment
+persists in memory, these resources remain locked, and unavailable to
+other users.
+
+<P>
+To give back these shared resources you need to dispose of any model
+associated with the environment, and then you need to dispose of the
+environment itself.
+
+<P>
+The actual steps depend on the API you are using:
+<DL>
+<DT><STRONG>C</STRONG></DT>
+<DD>Call <TT>GRBfreemodel()</TT> for each model, then call
+<TT>GRBfreeenv()</TT> for the Gurobi environment. For the previous
+example, it would look like:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint">QUIT:
+  /* Clean up model and environment */
+  GRBfreemodel(model);
+  GRBfreeenv(env);
+  return error;
+</PRE>
+</DD>
+<DT><STRONG>C++</STRONG></DT>
+<DD>If you use pointers to <TT>GRBModel</TT> and <TT>GRBEnv</TT> objects, delete all <TT>GRBModel</TT> objects, then delete
+the <TT>GRBEnv</TT> object.
+</DD>
+<DT><STRONG>Java</STRONG></DT>
+<DD>Call <TT>GRBModel.dispose()</TT> on all <TT>GRBModel</TT> objects, then call <TT>GRBEnv.dispose()</TT> on the
+<TT>GRBEnv</TT> object. For the previous example, it would look
+like:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint">  // Clean up model and environment
+  model.dispose()
+  env.dispose()
+</PRE>
+</DD>
+<DT><STRONG>.NET</STRONG></DT>
+<DD>Call <TT>GRBModel.Dispose()</TT> on all <TT>GRBModel</TT> objects, then call <TT>GRBEnv.Dispose()</TT> on the
+<TT>GRBEnv</TT> object.
+</DD>
+<DT><STRONG>Python</STRONG></DT>
+<DD>Call <TT>Model.dispose()</TT> on all <TT>Model</TT> objects, <TT>Env.dispose()</TT> on all <TT>Env</TT>
+objects (if used), then call <TT>disposeDefaultEnv()</TT>. For the
+previous example, it would look like:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint"># Clean up model and environment
+model.dispose()
+env.dispose()
+gp.disposeDefaultEnv()
+</PRE>
+</DD>
+</DL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="attributes.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="empty_environment_examples.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="attributes.html">Attributes</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="empty_environment_examples.html">Empty Environment Examples</A></DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

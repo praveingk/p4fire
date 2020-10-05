@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2019 (Released January 1, 2019) -->
+<HTML lang="EN">
+<HEAD>
+<TITLE>Setting Parameters in Empty Environments</TITLE>
+<META NAME="description" CONTENT="Setting Parameters in Empty Environments">
+<META NAME="keywords" CONTENT="refman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2019">
+
+<LINK REL="STYLESHEET" HREF="refman.css">
+
+<LINK REL="next" HREF="empty_environment_examples.html">
+<LINK REL="previous" HREF="setting_parameters_in_the_.html">
+<LINK REL="next" HREF="empty_environment_examples.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="empty_environment_examples.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="setting_parameters_in_the_.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="empty_environment_examples.html">Empty Environment Examples</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="setting_parameters_in_the_.html">Setting Parameters in the</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A ID="SECTION000162200000000000000">
+Setting Parameters in Empty Environments</A>
+</H3>
+Another means for setting startup parameters is to use an <EM>empty
+environment</EM>. Empty environments are Gurobi environments that can only
+be used to set parameters, but for nothing else.
+
+<P>
+The first step is to construct the empty environment.  This is done
+using <A HREF="c_emptyenv.html#routine:GRBemptyenv">GRBemptyenv</A> in <B>C</B>, or
+through one of the provided <code>GRBEnv</code> constructors in the
+object-oriented interfaces.  You then set parameters on this
+environment using the standard parameter API.  Finally, you start the
+environment, using the <A HREF="c_startenv.html#routine:GRBstartenv">GRBstartenv</A>
+in <B>C</B>, or using the <code>env.start()</code> method in the
+object-oriented interfaces.
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="empty_environment_examples.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="setting_parameters_in_the_.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="empty_environment_examples.html">Empty Environment Examples</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="setting_parameters_in_the_.html">Setting Parameters in the</A></DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

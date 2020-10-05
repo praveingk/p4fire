@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2019 (Released January 1, 2019) -->
+<HTML lang="EN">
+<HEAD>
+<TITLE>Empty Environment Examples</TITLE>
+<META NAME="description" CONTENT="Empty Environment Examples">
+<META NAME="keywords" CONTENT="refman">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2019">
+
+<LINK REL="STYLESHEET" HREF="refman.css">
+
+<LINK REL="next" HREF="releasing_shared_res.html">
+<LINK REL="previous" HREF="setting_parameters_in_empt.html">
+<LINK REL="next" HREF="releasing_shared_res.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="releasing_shared_res.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="setting_parameters_in_empt.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="releasing_shared_res.html">Releasing shared resources</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="setting_parameters_in_empt.html">Setting Parameters in Empty</A>
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H3><A ID="SECTION000162300000000000000">
+Empty Environment Examples</A>
+</H3>
+To give a simple example, if you want your <B>Python</B> program to
+offload the optimization computation to a Compute Server named
+<code>server1</code>, you could say:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint">import gurobipy as gp
+from gurobipy import GRB
+
+# Set up environment
+env = gp.Env(empty=True)
+env.setParam('ComputeServer', 'server1:61000')
+env.setParam('ServerPassword', 'passwd')
+env.start()
+
+# Load model and optimize
+model = gp.read('misc07.mps', env=env)
+model.optimize()
+</PRE>
+
+<P>
+An equivalent <B>Java</B> program would look like this:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint">import gurobi.*;
+...
+  // Set up environment
+  GRBenv env = new GRBEnv(true);
+  env.set(GRB.StringParam.ComputeServer,  "server1:61000");
+  env.set(GRB.StringParam.ServerPassword, "passwd");
+  env.start();
+
+  // Load model and optimize
+  GRBModel model = new GRBModel(env, "misc07.mps");
+  model.optimize()
+</PRE>
+
+<P>
+An equivalent <B>C</B> program would look like this:
+<SCRIPT SRC="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></SCRIPT>
+<BR>
+<PRE CLASS="prettyprint">#include "gurobi_c.h"
+int main(void) {
+  GRBenv   *env   = NULL;
+  GRBmodel *model = NULL;
+  int error   = 0;
+
+  /* Set up environment */
+  error = GRBemptyenv(&amp;env);
+  if (error) goto QUIT;
+  error = GRBsetstrparam(GRB_STR_PAR_COMPUTESERVER, "server1:61000");
+  if (error) goto QUIT;
+  error = GRBsetstrparam(GRB_STR_PAR_SERVERPASSWORD, "passwd");
+  if (error) goto QUIT;
+  error = GRBstartenv(env);
+  if (error) goto QUIT;
+
+  /* Load model and optimize */
+  error = GRBreadmodel(env, "misc07.mps", &amp;model);
+  if (error) goto QUIT;
+  error = GRBoptimize(model);
+  if (error) goto QUIT;
+</PRE>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="releasing_shared_res.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="startup_parameters.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="setting_parameters_in_empt.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A>   
+<BR>
+<B> Next:</B> <A
+ HREF="releasing_shared_res.html">Releasing shared resources</A>
+<B> Up:</B> <A
+ HREF="startup_parameters.html">Startup parameters</A>
+<B> Previous:</B> <A
+ HREF="setting_parameters_in_empt.html">Setting Parameters in Empty</A></DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>
