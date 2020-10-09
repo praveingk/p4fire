@@ -22,5 +22,18 @@ class controlplane:
         self.controlplaneHit   = 0
         self.controlplaneRulesHit = {}
 
-    def packetIn(self, packet, portType):
+    def internalPacketIn (self, flowid):
+        if flowid not in self.controlplaneRules:
+            self.controlplaneRules[flowid] = 1
+        else :
+            self.controlplaneRules[flowid] +=1        
+        return True
         
+    def externalPacketIn (self, flowid):
+        if flowid not in self.controlplaneRules:
+            return False
+        else:
+            self.controlplaneRulesHit[flowid] += 1 
+            self.controlplaneHit += 1
+    
+            return True

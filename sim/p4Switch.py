@@ -15,6 +15,8 @@ import time
 import pickle, pprint
 import subprocess
 import json
+from dataplane import dataplane
+from controlplane import controlplane
 
 class p4Switch:
     def __init__(self, dataplaneSize):
@@ -29,6 +31,8 @@ class p4Switch:
         self.external = {}
         self.dropCounter = 0
         self.packetCounter = 0
+        self.myDataplane = dataplane(dataplaneSize)
+        self.myControlplane = controlplane()
 
     def classifyIP (self, packet):
         try :
@@ -79,6 +83,7 @@ class p4Switch:
     def getFlowId (self, packet):
         try:
             flowid = 0
+
             protocol = packet[IP].proto
             if packet[IP].src in self.internal:
                 if protocol == 0x06:
@@ -106,19 +111,39 @@ class p4Switch:
             return hash(flowid)
         except IndexError:
             return
-            
+    
+    def getPacketSize (self, packet):
+        pktsize = 0#packet[IP].size
+        protocol = packet[IP].proto
+        if protocol == 0x06:
+            #print packet[IP].src + ", " + packet[IP].dst + ", " + str(packet[IP].proto) + ", " + str(packet[TCP].sport) + str(packet[TCP].dport)
+            pktsize = packet[TCP].len + len(packet)
+        elif protocol == 0x11:
+            pktsize = packet[UDP].len + len(packet)
+        else:
+            pktsize = len(packet)
+
+        print pktsize
+        return pktsize
+
     def packetIn(self, packet):
         try :
             flowid = self.getFlowId(packet) 
+            pktsize = self.getPacketSize(packet)
+
+
+            dataplaneForwarding = False
             if packet[IP].src in self.internal:
-                if flowid not in self.dataplaneRules:
-                    self.dataplaneRules[flowid] = 1
-                    if self.dataplaneSize == 0:
-                        self.controlplaneRules[flowid] = 1
-                    self.dataplaneSize -=1
-                    #print str(flowid) + " - " + str(self.dataplaneRules[flowid])
-                else :
-                    self.dataplaneRules[flowid] +=1
+                dataplaneForwarding = self.myDataplane.internalPacketIn(flowid)
+            elif packet[IP].src in self.external:
+                dataplaneForwarding = self.myDataplane.externalPacketIn(flowid)
+
+            if dataplaneForwarding == False:
+                if packet[IP].src in self.internal:
+                    controlplaneForwarding = self.myControlplane.internalPacketIn(flowid)
+                elif packet[IP].src in self.external:
+                    controlplaneForwarding = self.myControlplane.externalPacketIn(flowid)
+
             
 
             self.packetCounter += 1

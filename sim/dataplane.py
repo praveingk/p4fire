@@ -23,5 +23,21 @@ class dataplane:
         self.dataplaneRulesHit = {}
         self.dataplaneSize = dataplaneSize    
 
-    def packetIn(self, packet, portType):
+    def internalPacketIn (self, flowid):
+        if flowid not in self.dataplaneRules:
+            self.dataplaneRules[flowid] = 1
+            if self.dataplaneSize == 0:
+                return False
+            self.dataplaneSize -=1
+                    #print str(flowid) + " - " + str(self.dataplaneRules[flowid])
+        else :
+            self.dataplaneRules[flowid] +=1        
+        return True
         
+    def externalPacketIn (self, flowid):
+        if flowid not in self.dataplaneRules:
+            return False
+        else:
+            self.dataplaneRulesHit[flowid] += 1 
+            self.dataplaneHit += 1
+            return True
