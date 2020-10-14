@@ -21,19 +21,28 @@ class controlplane:
         self.controlplaneRules = {}
         self.controlplaneHit   = 0
         self.controlplaneRulesHit = {}
+        self.controlplaneInternalBytes = {}
+        self.controlplaneExternalBytes = {}
+        self.controlplaneBytes = 0
+    def printState (self):
+        print "Total packets in "
 
-    def internalPacketIn (self, flowid):
+    def internalPacketIn (self, flowid, pktsize):
         if flowid not in self.controlplaneRules:
             self.controlplaneRules[flowid] = 1
         else :
-            self.controlplaneRules[flowid] +=1        
+            self.controlplaneRules[flowid] +=1      
+        self.controlplaneHit   += 1
+        self.controlplaneInternalBytes[flowid] += pktsize  
+        self.controlplaneBytes += pktsize
         return True
         
-    def externalPacketIn (self, flowid):
+    def externalPacketIn (self, flowid, pktsize):
         if flowid not in self.controlplaneRules:
             return False
         else:
             self.controlplaneRulesHit[flowid] += 1 
             self.controlplaneHit += 1
-    
+            self.controlplaneExternalBytes[flowid] += pktsize
+            self.controlplaneBytes += pktsize
             return True

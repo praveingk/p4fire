@@ -22,8 +22,11 @@ class dataplane:
         self.dataplaneHit   = 0
         self.dataplaneRulesHit = {}
         self.dataplaneSize = dataplaneSize    
+        self.dataplaneInternalBytes = {}
+        self.dataplaneExternalBytes = {}
+        self.dataplaneBytes = 0
 
-    def internalPacketIn (self, flowid):
+    def internalPacketIn (self, flowid, pktsize):
         if flowid not in self.dataplaneRules:
             self.dataplaneRules[flowid] = 1
             if self.dataplaneSize == 0:
@@ -31,13 +34,19 @@ class dataplane:
             self.dataplaneSize -=1
                     #print str(flowid) + " - " + str(self.dataplaneRules[flowid])
         else :
-            self.dataplaneRules[flowid] +=1        
+            self.dataplaneRules[flowid] +=1 
+            
+        self.dataplaneHit           += 1
+        self.dataplaneInternalBytes[flowid] += pktsize       
+        self.dataplaneBytes                 += pktsize
         return True
         
-    def externalPacketIn (self, flowid):
+    def externalPacketIn (self, flowid, pktsize):
         if flowid not in self.dataplaneRules:
             return False
         else:
             self.dataplaneRulesHit[flowid] += 1 
-            self.dataplaneHit += 1
+            self.dataplaneHit              += 1
+            self.dataplaneExternalBytes[flowid]    += pktsize       
+            self.dataplaneBytes += pktsize
             return True

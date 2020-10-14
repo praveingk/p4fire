@@ -134,18 +134,17 @@ class p4Switch:
 
             dataplaneForwarding = False
             if packet[IP].src in self.internal:
-                dataplaneForwarding = self.myDataplane.internalPacketIn(flowid)
+                dataplaneForwarding = self.myDataplane.internalPacketIn(flowid, pktsize)
             elif packet[IP].src in self.external:
-                dataplaneForwarding = self.myDataplane.externalPacketIn(flowid)
+                dataplaneForwarding = self.myDataplane.externalPacketIn(flowid, pktsize)
 
             if dataplaneForwarding == False:
                 if packet[IP].src in self.internal:
-                    controlplaneForwarding = self.myControlplane.internalPacketIn(flowid)
+                    controlplaneForwarding = self.myControlplane.internalPacketIn(flowid, pktsize)
                 elif packet[IP].src in self.external:
-                    controlplaneForwarding = self.myControlplane.externalPacketIn(flowid)
+                    controlplaneForwarding = self.myControlplane.externalPacketIn(flowid, pktsize)
 
             
-
             self.packetCounter += 1
         except IndexError:
             return
